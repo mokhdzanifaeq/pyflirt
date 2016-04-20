@@ -1,5 +1,5 @@
 # pyflirt
-**pyflirt** is a map file genrator for binary file based on flirt signature. Since it is used it with ollydbg, only intel x86 binary is currently supported. This tool was succesfully tested with ollydbg 1.10 MapConv plugin to import the map file.
+**pyflirt** is a map file genarator for binary file based on flirt signature. Since it is used with ollydbg, only intel x86 binary is currently supported. This tool was succesfully tested with ollydbg 1.10 MapConv plugin to import the map file.
 
 Installation
 ============
