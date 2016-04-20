@@ -1,0 +1,56 @@
+{
+  "characteristic": {
+    "RELOCS_STRIPPED": 1,
+    "EXECUTABLE_IMAGE": 2,
+    "LINE_NUMS_STRIPPED": 4,
+    "LOCAL_SYMS_STRIPPED": 8,
+    "AGGRESIVE_WS_TRIM": 16,
+    "LARGE_ADDRESS_AWARE": 32,
+    "BYTES_REVERSED_LO": 128,
+    "32BIT_MACHINE": 256,
+    "DEBUG_STRIPPED": 512,
+    "REMOVABLE_RUN_FROM_SWAP": 1024,
+    "NET_RUN_FROM_SWAP": 2048,
+    "SYSTEM": 4096,
+    "DLL": 8192,
+    "UP_SYSTEM_ONLY": 16384,
+    "BYTES_REVERSED_HI": 32768
+  },
+  "dll_characteristic": {
+    "DYNAMIC_BASE": 64,
+    "FORCE_INTEGRITY": 128,
+    "NX_COMPAT": 256,
+    "NO_ISOLATION": 512,
+    "NO_SEH": 1024,
+    "NO_BIND": 2048,
+    "WDM_DRIVER": 8192,
+    "TERMINAL_SERVER_AWARE": 32768
+  },
+  "section_characteristic": {
+    "CNT_CODE": 32,
+    "CNT_INITIALIZED_DATA": 64,
+    "CNT_UNINITIALIZED_DATA": 128,
+    "MEM_DISCARDABLE": 33554432,
+    "MEM_NOT_CACHED": 67108864,
+    "MEM_NOT_PAGED": 134217728,
+    "MEM_SHARED": 268435456,
+    "MEM_EXECUTE": 536870912,
+    "MEM_READ": 1073741824,
+    "MEM_WRITE": 2147483648
+  },
+  "subsystem": {
+    "0": "UNKNOWN",
+    "1": "NATIVE",
+    "2": "WINDOWS_GUI",
+    "3": "WINDOWS_CUI",
+    "5": "OS2_CUI",
+    "7": "POSIX_CUI",
+    "9": "WINDOWS_CE_GUI",
+    "10": "EFI_APPLICATION",
+    "11": "EFI_BOOT_SERVICE_DRIVER",
+    "12": "EFI_RUNTIME_DRIVER",
+    "13": "EFI_ROM",
+    "14": "XBOX",
+    "16": "WINDOWS_BOOT_APPLICATION"
+  }
+}
