@@ -11,6 +11,18 @@ Require [python capstone binding](https://github.com/aquynh/capstone/tree/master
 **Install**
 
     git clone https://github.com/mokhdzanifaeq/pyflirt
+    
+Usage
+=====
+```
+usage: pyflirt.py [-h] -b path -s path -o path
+
+optional arguments:
+  -h, --help           show this help message and exit
+  -b path, --bin path  path of binary file to be analysed
+  -s path, --sig path  path of signature file to be analysed
+  -o path, --out path  path of map file to be generated
+```
 
 Screenshots
 ===========
