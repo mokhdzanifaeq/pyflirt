@@ -6,10 +6,8 @@ from argparse import ArgumentParser
 from sys import argv
 
 def raw(path):
-    fd = open(path, "rb")
-    binary = fd.read()
-    fd.close()
-    return binary
+    with open(path, "rb") as fd:
+        return fd.read()
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='generate map file for intel x86 binary based on flirt signature')
