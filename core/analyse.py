@@ -97,7 +97,7 @@ class function:
                     self.referenced_functions[data[0]] = self.functions[data[0]]
                     return False
             # passes referenced fuction checking, remove referenced function address from dictionary
-            self.referenced_functions.poo(data[0], None)
+            self.referenced_functions.pop(data[0], None)
         for public_function in module["public_functions"]:
             if public_function["name"] != "?":
                 if public_function["offset"] == 0:
