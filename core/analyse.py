@@ -19,15 +19,15 @@ class function:
         # search for function in each section
         for i, section in enumerate(self.sections):
             # check if section is executable
-            if section.characteristics & 0x20000000 or section.characteristics & 0x20:
+            if section.characteristics & 0x20000020:
                 raw_section = self.binary[section.pointer_to_raw_data:section.pointer_to_raw_data + section.virtual_size]
                 for insn in md.disasm(raw_section, 0):
                     # search for call instruction that point to relative address
                     if insn.mnemonic == "call" and insn.op_str[:2] == "0x":
                         address = int(insn.op_str, 0)
-                        if not self.functions.has_key(address):
+                        if not address in self.functions:
                             self.functions[address] = [i]
-        if not len(self.functions) > 0:
+        if not self.functions:
             raise Exception("cannot find any function")
         # get functions name based on flirt signature
         for data in self.functions.items():
@@ -42,18 +42,18 @@ class function:
                     if self.node_match(child_node, data, 0):
                         break
             # stop if does not found any referenced function
-            if len(self.referenced_functions) == 0 or temp == self.referenced_functions:
+            if not self.referenced_functions or temp == self.referenced_functions:
                 break
-        if not self.count > 0:
+        if not self.count:
             raise Exception("cannot find matched function")
 
     def node_match(self, node, data, offset):
         if self.pattern_match(node, data[0] + self.sections[data[1][0]].pointer_to_raw_data + offset):
-            if len(node["child_list"]) != 0:
+            if node["child_list"]:
                 for child_node in node["child_list"]:
                     if self.node_match(child_node, data, offset + node["length"]):
                         return True
-            elif len(node["module_list"]) != 0:
+            elif node["module_list"]:
                 for module in node["module_list"]:
                     if self.module_match(module, data):
                         return True
@@ -72,12 +72,11 @@ class function:
         if module["crc16"] != self.crc16(base + 32, module["crc_length"]):
             return False
         # check tail bytes
-        if module.has_key("tail_bytes"):
-            for tail_byte in module["tail_bytes"]:
-                if self.binary[base + 32 + module["crc_length"] + tail_byte["offset"]] != tail_byte["value"]:
-                    return False
+        for tail_byte in module.get("tail_bytes", []):
+            if self.binary[base + 32 + module["crc_length"] + tail_byte["offset"]] != tail_byte["value"]:
+                return False
         # check referenced function
-        if module.has_key("referenced_functions"):
+        if "referenced_functions" in module:
             for ref_function in module["referenced_functions"]:
                 # get addess for referenced function
                 ref_offset = base + ref_function["offset"]
@@ -98,8 +97,7 @@ class function:
                     self.referenced_functions[data[0]] = self.functions[data[0]]
                     return False
             # passes referenced fuction checking, remove referenced function address from dictionary
-            if self.referenced_functions.has_key(data[0]):
-                del self.referenced_functions[data[0]]
+            self.referenced_functions.poo(data[0], None)
         for public_function in module["public_functions"]:
             if public_function["name"] != "?":
                 if public_function["offset"] == 0:
