@@ -1,5 +1,6 @@
 from os.path import dirname
 from ctypes import *
+from struct import *
 import json
 import datetime
 
@@ -75,7 +76,7 @@ class pe:
 
 	def parse_pe_header(self):
 		# skip to PE offset
-		skip = ord(self.binary[60:61])
+		skip = unpack("<I", self.binary[60:64])[0]
 		# parse file header
 		self.header = file_header.from_buffer_copy(self.binary[skip:])
 		skip += sizeof(file_header)
