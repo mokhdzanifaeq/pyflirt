@@ -125,6 +125,7 @@
   },
   "function": {
     "LOCAL": 2,
-    "UNRESOLVED_COLLISION": 8
+    "UNRESOLVED_COLLISION": 8,
+    "NEGATIVE_OFFSET": 16
   }
 }

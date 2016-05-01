@@ -157,6 +157,8 @@ class idasig:
 							public_function["is_local"] = True
 						if current_byte & self.flag["function"]["UNRESOLVED_COLLISION"]:
 							public_function["is_collision"] = True
+						if current_byte & self.flag["function"]["NEGATIVE_OFFSET"]:
+							public_function["offset"] *= -1
 						# if bool(current_byte & 0x01) or bool(current_byte & 0x04):
 						current_byte = self.read_byte()
 					public_function["name"] = ""
@@ -190,7 +192,7 @@ class idasig:
 						for j in xrange(name_length):
 							referenced_function["name"] += chr(self.read_byte())
 						if referenced_function["name"][name_length - 1] == 0:
-							referenced_function["negative_offset"] == True
+							referenced_function["offset"] *= -1
 						module["referenced_functions"].append(referenced_function)
 					if len(module["referenced_functions"]) > 1:
 						print module
