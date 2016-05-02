@@ -26,7 +26,7 @@ class function:
                     if insn.mnemonic == "call" and insn.op_str[:2] == "0x":
                         address = int(insn.op_str, 0)
                         if not address in self.functions:
-                            self.functions[address] = [i]
+                            self.functions[address] = {"section": i}
         if not self.functions:
             raise Exception("cannot find any function")
         # get functions name based on flirt signature
@@ -48,7 +48,7 @@ class function:
             raise Exception("cannot find matched function")
 
     def node_match(self, node, data, offset):
-        if self.pattern_match(node, data[0] + self.sections[data[1][0]].pointer_to_raw_data + offset):
+        if self.pattern_match(node, data[0] + self.sections[data[1]["section"]].pointer_to_raw_data + offset):
             if node["child_list"]:
                 for child_node in node["child_list"]:
                     if self.node_match(child_node, data, offset + node["length"]):
@@ -67,7 +67,7 @@ class function:
         return True
 
     def module_match(self, module, data):
-        base = data[0] + self.sections[data[1][0]].pointer_to_raw_data
+        base = data[0] + self.sections[data[1]["section"]].pointer_to_raw_data
         # check crc
         if module["crc16"] != self.crc16(base + 32, module["crc_length"]):
             return False
@@ -88,10 +88,10 @@ class function:
                     ref_address = unpack("<i", self.binary[ref_offset:ref_offset + 4])[0]
                 else:
                     return False
-                ref_address -= self.sections[data[1][0]].pointer_to_raw_data
+                ref_address -= self.sections[data[1]["section"]].pointer_to_raw_data
                 # check if referenced function have name
-                if len(self.functions[ref_address]) > 1:
-                    if ref_function["name"] != self.functions[ref_address][1]:
+                if "name" in self.functions[ref_address]:
+                    if ref_function["name"] != self.functions[ref_address]["name"]:
                         return False
                 else:
                     self.referenced_functions[data[0]] = self.functions[data[0]]
@@ -101,9 +101,9 @@ class function:
         for public_function in module["public_functions"]:
             if public_function["name"] != "?":
                 if public_function["offset"] == 0:
-                    self.functions[data[0]].append(public_function["name"])
+                    self.functions[data[0]]["name"] = public_function["name"]
                 else:
-                    self.functions[data[0] + public_function["offset"]] = [data[1][0], public_function["name"]]
+                    self.functions[data[0] + public_function["offset"]] = [data[1]["section"], public_function["name"]]
                 self.count += 1
         return True
 
